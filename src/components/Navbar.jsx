@@ -1,60 +1,62 @@
+"use client";
+
 import Link from "next/link";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function Navbar() {
+  const { usuario, cargando, autenticado, cerrarSesion } = useAuth();
+
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#fcf9f2]/95 text-[#1c1c18] backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 lg:px-8">
-        {/* Marca */}
+    <header className="w-full border-b border-[#e8e0d4] bg-[#fcf9f2]">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          aria-label="Óptica - Inicio"
-          className="text-2xl font-black uppercase tracking-tighter sm:text-3xl"
+          className="text-xl font-bold tracking-wide text-[#1c1c18]"
         >
-          Óptica<span className="text-[#855230]">.</span>
+          EXTREME OPTICS
         </Link>
 
-        {/* Navegación */}
-        <nav
-            aria-label="Navegación principal"
-            className="order-last flex w-full flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider lg:order-none lg:w-auto"
-          >
-            <Link href="/" className="px-3 py-2 hover:text-[#855230]">
-              Inicio
-            </Link>
+        <div className="flex items-center gap-6">
+          <Link href="/">Inicio</Link>
+          <Link href="/anteojos">Anteojos</Link>
+          <Link href="/categorias">Categorías</Link>
+          <Link href="/contacto">Contacto</Link>
 
-            <Link href="/anteojos" className="px-3 py-2 hover:text-[#855230]">
-              Anteojos
-            </Link>
-
-            <Link href="/categorias" className="px-3 py-2 hover:text-[#855230]">
-              Categorías
-            </Link>
-
-            <Link href="/contacto" className="px-3 py-2 hover:text-[#855230]">
-              Contacto
-            </Link>
-
-            <Link href="/dashboard" className="px-3 py-2 hover:text-[#855230]">
-              Panel
-            </Link>
-          </nav>
-        {/* Acceso de usuarios */}
-        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider sm:text-xs">
-          <Link
-            href="/login"
-            className="border border-black px-3 py-2 transition-colors hover:bg-black hover:text-white"
-          >
-            Iniciar sesión
-          </Link>
-
-          <Link
-            href="/registro"
-            className="border border-black bg-black px-3 py-2 text-white transition-colors hover:border-[#855230] hover:bg-[#855230]"
-          >
-            Registrarse
-          </Link>
+          {autenticado && usuario?.isStaff === true && (
+            <Link href="/dashboard">Panel</Link>
+          )}
         </div>
-      </div>
+
+        <div className="flex items-center gap-4">
+          {cargando ? (
+            <span className="text-sm text-gray-500">Verificando...</span>
+          ) : autenticado ? (
+            <>
+              <span className="text-sm text-[#1c1c18]">
+                {usuario?.username || "Mi cuenta"}
+              </span>
+
+              <button
+                type="button"
+                onClick={cerrarSesion}
+                className="rounded-md bg-[#855230] px-4 py-2 text-sm text-white transition hover:bg-[#6d4127]"
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">Iniciar sesión</Link>
+              <Link
+                href="/registro"
+                className="rounded-md bg-[#855230] px-4 py-2 text-sm text-white transition hover:bg-[#6d4127]"
+              >
+                Registrarse
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
     </header>
   );
 }
