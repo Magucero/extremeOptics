@@ -1,10 +1,44 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { obtenerCategorias } from "@/services/categorias";
 
-export default async function CategoriasPage() {
+async function ListaCategorias() {
   const datos = await obtenerCategorias();
-  const categorias = datos.results;
+  const categorias = datos.results ?? [];
 
+  return (
+    <section
+      aria-label="Categorías de anteojos"
+      className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+    >
+      {categorias.map((categoria) => (
+        <article
+          key={categoria.id}
+          className="border border-black/10 bg-white p-8"
+        >
+          <h2 className="text-2xl font-bold uppercase">{categoria.nombre}</h2>
+
+          <p className="mt-4 leading-7 text-[#444748]">
+            {categoria.descripcion}
+          </p>
+
+          <Link
+            href={`/anteojos/${categoria.slug}`}
+            className="mt-6 inline-block bg-black px-5 py-3 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-[#855230]"
+          >
+            Ver colección
+          </Link>
+        </article>
+      ))}
+
+      {categorias.length === 0 && (
+        <p className="mt-8 text-[#444748]">No hay categorías disponibles.</p>
+      )}
+    </section>
+  );
+}
+
+export default function CategoriasPage() {
   return (
     <main className="min-h-screen bg-[#fcf9f2] px-5 py-12 text-[#1c1c18] lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -20,38 +54,13 @@ export default async function CategoriasPage() {
           Explorá las categorías de nuestra colección.
         </p>
 
-        <section
-          aria-label="Categorías de anteojos"
-          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        <Suspense
+          fallback={
+            <p className="mt-10 text-[#444748]">Cargando categorías...</p>
+          }
         >
-          {categorias.map((categoria) => (
-            <article
-              key={categoria.id}
-              className="border border-black/10 bg-white p-8"
-            >
-              <h2 className="text-2xl font-bold uppercase">
-                {categoria.nombre}
-              </h2>
-
-              <p className="mt-4 leading-7 text-[#444748]">
-                {categoria.descripcion}
-              </p>
-
-              <Link
-                href={`/anteojos/${categoria.slug}`}
-                className="mt-6 inline-block bg-black px-5 py-3 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-[#855230]"
-              >
-                Ver colección
-              </Link>
-            </article>
-          ))}
-        </section>
-
-        {categorias.length === 0 && (
-          <p className="mt-8 text-[#444748]">
-            No hay categorías disponibles.
-          </p>
-        )}
+          <ListaCategorias />
+        </Suspense>
       </div>
     </main>
   );
