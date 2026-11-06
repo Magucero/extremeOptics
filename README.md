@@ -10,7 +10,7 @@ Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el 
 ## Enlaces de entrega
 
 - **Aplicación desplegada:** _COMPLETAR: URL de Vercel_
-- **Tablero Kanban (Trello):** _COMPLETAR: URL del tablero de Trello_
+- **Tablero Kanban (Trello):** https://trello.com/b/u1t3s0lA/extreme-optics-efi
 - **Repositorio frontend:** https://github.com/Magucero/extremeOptics
 
 ## Integrantes
