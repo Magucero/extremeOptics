@@ -16,16 +16,11 @@ export default function AnteojosLayout({ children }) {
             Sol
           </Link>
 
-          <Link
-            href="/anteojos/luz-azul"
-            className="hover:text-[#855230]"
-          >
+          <Link href="/anteojos/luz-azul" className="hover:text-[#855230]">
             Luz Azul
           </Link>
-          <Link
-            href="/anteojos/recetados"
-            className="hover:text-[#855230]"
-          >
+
+          <Link href="/anteojos/recetados" className="hover:text-[#855230]">
             Recetados
           </Link>
         </div>
