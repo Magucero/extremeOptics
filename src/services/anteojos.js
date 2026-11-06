@@ -20,23 +20,39 @@ async function procesarRespuesta(respuesta, mensajeError) {
   return respuesta.json();
 }
 
+// Read functions are called from Server Components, where fetch requires an
+// absolute URL. They query the Django API directly through API_BASE_URL
+// (server-only variable). Mutations below go through /api route handlers
+// because they are called from Client Components and need the session cookie.
+function urlApi(ruta) {
+  const baseUrl = process.env.API_BASE_URL?.replace(/\/+$/, "");
+
+  if (!baseUrl) {
+    throw new Error("La URL de la API no está configurada.");
+  }
+
+  return `${baseUrl}${ruta}`;
+}
+
 // Obtener todos los anteojos con filtros opcionales
 export async function obtenerAnteojos(filtros = {}) {
   const parametros = new URLSearchParams(filtros);
   const query = parametros.toString();
 
-  const respuesta = await fetch(`/api/anteojos${query ? `?${query}` : ""}`, {
-    cache: "no-store",
-  });
+  const respuesta = await fetch(
+    urlApi(`/anteojos/${query ? `?${query}` : ""}`),
+    { cache: "no-store" },
+  );
 
   return procesarRespuesta(respuesta, "No se pudieron obtener los anteojos.");
 }
 
 // Obtener un anteojo por ID
 export async function obtenerAnteojoPorId(id) {
-  const respuesta = await fetch(`/api/anteojos/${encodeURIComponent(id)}`, {
-    cache: "no-store",
-  });
+  const respuesta = await fetch(
+    urlApi(`/anteojos/${encodeURIComponent(id)}/`),
+    { cache: "no-store" },
+  );
 
   if (respuesta.status === 404) {
     return null;
