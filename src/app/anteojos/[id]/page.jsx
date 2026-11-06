@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { obtenerAnteojoPorId } from "@/services/anteojos";
+import { obtenerDetalleAnteojo } from "@/services/anteojos";
 
 export default async function DetalleAnteojoPage({ params }) {
   const { id } = await params;
-  const anteojo = await obtenerAnteojoPorId(id);
+  const anteojo = await obtenerDetalleAnteojo(id);
 
   if (!anteojo) {
     notFound();
