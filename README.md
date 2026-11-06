@@ -10,7 +10,7 @@ Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el 
 ## Enlaces de entrega
 
 - **Aplicación desplegada:** _COMPLETAR: URL de Vercel_
-- **Tablero Kanban:** _COMPLETAR: URL del tablero_
+- **Tablero Kanban (Trello):** _COMPLETAR: URL del tablero de Trello_
 - **Repositorio frontend:** https://github.com/Magucero/extremeOptics
 
 ## Integrantes
@@ -119,5 +119,7 @@ _COMPLETAR: agregar capturas de la aplicación en funcionamiento, por ejemplo:_
 -->
 
 ## Flujo de trabajo
+
+El equipo organiza las tareas en un tablero Kanban de **Trello**, donde cada tarjeta avanza por las etapas de pendiente, en curso y terminada.
 
 El repositorio usa las ramas `main`, `develop` y ramas de funcionalidad, integradas mediante pull requests.
