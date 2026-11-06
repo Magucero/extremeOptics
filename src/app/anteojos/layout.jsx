@@ -1,35 +1,32 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "../components/Navbar";
-import { AuthProvider } from "../components/auth/AuthProvider";
+import Link from "next/link";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata = {
-  title: "Extreme Optics",
-  description: "Óptica y anteojos de sol y recetados.",
-};
-
-export default function RootLayout({ children }) {
+export default function AnteojosLayout({ children }) {
   return (
-    <html
-      lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body>
-        <AuthProvider>
-          <Navbar />
-          {children}
-        </AuthProvider>
-      </body>
-    </html>
+    <div className="bg-[#fcf9f2] text-[#1c1c18]">
+      <nav
+        aria-label="Categorías del catálogo"
+        className="border-b border-black/10 bg-[#f1eee7] px-5 py-4 lg:px-8"
+      >
+        <div className="mx-auto flex max-w-7xl flex-wrap gap-6 text-xs font-semibold uppercase tracking-wider">
+          <Link href="/anteojos" className="hover:text-[#855230]">
+            Todos
+          </Link>
+
+          <Link href="/anteojos/sol" className="hover:text-[#855230]">
+            Sol
+          </Link>
+
+          <Link href="/anteojos/luz-azul" className="hover:text-[#855230]">
+            Luz Azul
+          </Link>
+
+          <Link href="/anteojos/recetados" className="hover:text-[#855230]">
+            Recetados
+          </Link>
+        </div>
+      </nav>
+
+      {children}
+    </div>
   );
 }

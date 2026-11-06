@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const AuthContext = createContext(null);
@@ -17,7 +11,51 @@ export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
   const [cargando, setCargando] = useState(true);
 
-  const consultarSesion = useCallback(async () => {
+  useEffect(() => {
+    let cancelado = false;
+
+    async function cargarSesion() {
+      try {
+        const respuesta = await fetch("/api/auth/session", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!respuesta.ok) {
+          if (!cancelado) {
+            setUsuario(null);
+          }
+          return;
+        }
+
+        const datos = await respuesta.json();
+
+        if (!cancelado) {
+          setUsuario(datos.usuario ?? null);
+        }
+      } catch (error) {
+        console.error("Error al consultar la sesión:", error);
+
+        if (!cancelado) {
+          setUsuario(null);
+        }
+      } finally {
+        if (!cancelado) {
+          setCargando(false);
+        }
+      }
+    }
+
+    cargarSesion();
+
+    return () => {
+      cancelado = true;
+    };
+  }, []);
+
+  async function consultarSesion() {
+    setCargando(true);
+
     try {
       const respuesta = await fetch("/api/auth/session", {
         method: "GET",
@@ -37,17 +75,17 @@ export function AuthProvider({ children }) {
     } finally {
       setCargando(false);
     }
-  }, []);
-
-  useEffect(() => {
-    consultarSesion();
-  }, [consultarSesion]);
+  }
 
   async function cerrarSesion() {
     try {
-      await fetch("/api/auth/logout", {
+      const respuesta = await fetch("/api/auth/logout", {
         method: "POST",
       });
+
+      if (!respuesta.ok) {
+        console.error("No se pudo cerrar la sesión correctamente.");
+      }
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     } finally {

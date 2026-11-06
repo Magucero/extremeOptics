@@ -11,7 +11,21 @@ export async function POST(request) {
       );
     }
 
-    const respuesta = await fetch(`${process.env.API_BASE_URL}/token/`, {
+    const apiBaseUrl = process.env.API_BASE_URL;
+
+    if (!apiBaseUrl) {
+      console.error("Falta configurar API_BASE_URL.");
+      return NextResponse.json(
+        { error: "La URL de la API no está configurada." },
+        { status: 500 },
+      );
+    }
+
+    const url = `${apiBaseUrl.replace(/\/+$/, "")}/token/`;
+
+    console.log("Intentando conectar con Django:", url);
+
+    const respuesta = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,16 +34,32 @@ export async function POST(request) {
       cache: "no-store",
     });
 
-    const tokens = await respuesta.json();
+    const contenido = await respuesta.text();
+
+    let tokens;
+
+    try {
+      tokens = JSON.parse(contenido);
+    } catch {
+      console.error("Django devolvió una respuesta no JSON:", contenido);
+      return NextResponse.json(
+        { error: "La API devolvió una respuesta inválida." },
+        { status: 502 },
+      );
+    }
 
     if (!respuesta.ok) {
+      console.error("Error de autenticación Django. Estado:", respuesta.status);
+
       return NextResponse.json(
-        { error: "Usuario o contraseña incorrectos." },
+        { error: tokens.detail || "Usuario o contraseña incorrectos." },
         { status: respuesta.status },
       );
     }
 
     if (!tokens.access || !tokens.refresh) {
+      console.error("Respuesta JWT incompleta:", tokens);
+
       return NextResponse.json(
         { error: "La API devolvió una respuesta de autenticación inválida." },
         { status: 502 },
@@ -59,7 +89,9 @@ export async function POST(request) {
     });
 
     return response;
-  } catch {
+  } catch (error) {
+    console.error("Error interno en /api/auth/login:", error);
+
     return NextResponse.json(
       { error: "No se pudo conectar con el servidor." },
       { status: 500 },
