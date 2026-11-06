@@ -15,10 +15,10 @@ Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el 
 
 ## Integrantes
 
-- _COMPLETAR: Nombre y apellido_
-- _COMPLETAR: Nombre y apellido_
-- _COMPLETAR: Nombre y apellido_
-- _COMPLETAR: Nombre y apellido_
+- Neira Leonardo
+- Pereira Thomas
+- Ramón Joaquín Rodriguez
+- Perez Lucas
 
 ## Tecnologías
 
