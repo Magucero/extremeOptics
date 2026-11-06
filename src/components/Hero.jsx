@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="overflow-hidden bg-[#fcf9f2] px-5 py-12 text-[#1c1c18] lg:px-8 lg:py-20">
@@ -27,26 +30,26 @@ export default function Hero() {
           </h1>
 
           <p className="mt-7 max-w-lg text-base leading-7 text-[#444748] sm:text-lg">
-            Anteojos que acompañan tu forma de vivir. Explorá
-            nuestros modelos de sol y armazones recetados, y
-            encontrá el diseño que va con vos.
+            Anteojos que acompañan tu forma de vivir. Explorá nuestros
+            modelos de sol y armazones recetados, y encontrá el diseño
+            que va con vos.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-6">
-            <a
-              href="#catalogo"
+            <Link
+              href="/anteojos"
               className="inline-flex items-center gap-4 bg-black px-6 py-4 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-[#855230]"
             >
               Explorar colección
               <span aria-hidden="true">→</span>
-            </a>
+            </Link>
 
-            <a
-              href="#categorias"
+            <Link
+              href="/categorias"
               className="text-xs font-semibold uppercase tracking-widest underline underline-offset-8 transition-colors hover:text-[#855230]"
             >
               Encontrá tu estilo
-            </a>
+            </Link>
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-6 border-t border-black/15 pt-6 sm:grid-cols-3">
@@ -54,7 +57,9 @@ export default function Hero() {
               <p className="text-[10px] uppercase tracking-widest text-[#444748]">
                 Colección
               </p>
-              <p className="mt-2 text-lg font-bold">Anteojos de sol</p>
+              <p className="mt-2 text-lg font-bold">
+                Anteojos de sol
+              </p>
             </div>
 
             <div>
@@ -81,12 +86,14 @@ export default function Hero() {
 
           {/* Fotografía principal */}
           <div className="bg-white p-3 shadow-xl">
-            <div className="relative aspect-[4/5] bg-[#e5e2db]">
-              <div className="flex h-full items-center justify-center p-6 text-center">
-                <p className="text-xs uppercase tracking-widest text-[#444748]">
-                  Fotografía de campaña
-                </p>
-              </div>
+            <div className="relative aspect-[4/5] overflow-hidden bg-[#e5e2db]">
+              <Image
+                src="/images/hero-modelo.png"
+                alt="Modelo con anteojos de sol carey en un entorno de tonos cálidos"
+                fill
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 464px, 40vw"
+                className="object-cover"
+              />
 
               <span className="absolute bottom-3 left-3 bg-[#fcf9f2]/95 px-3 py-2 text-[9px] font-semibold uppercase tracking-widest">
                 Colección editorial / 2026
@@ -96,14 +103,18 @@ export default function Hero() {
 
           {/* Fotografía superpuesta del producto */}
           <div className="absolute bottom-0 left-0 z-10 w-3/5 bg-white p-3 shadow-2xl">
-            <div className="relative flex aspect-square items-center justify-center bg-[#f1eee7] p-4">
+            <div className="relative aspect-square overflow-hidden bg-[#f1eee7]">
+              <Image
+                src="/images/hero-anteojo.png"
+                alt="Anteojos de sol carey con lentes marrones sobre una superficie crema"
+                fill
+                sizes="(max-width: 640px) 55vw, 307px"
+                className="object-cover"
+              />
+
               <span className="absolute left-2 top-2 bg-black px-2 py-1 text-[8px] uppercase tracking-widest text-white">
                 Detalles que distinguen
               </span>
-
-              <p className="text-center text-[10px] uppercase tracking-widest text-[#444748]">
-                Fotografía del anteojo
-              </p>
             </div>
 
             <p className="pt-3 text-[10px] font-semibold uppercase tracking-wider">
