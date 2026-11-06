@@ -1,39 +1,43 @@
 import Link from "next/link";
+import RegisterForm from "@/components/auth/RegisterForm";
+
+export const metadata = {
+  title: "Crear cuenta | Extreme Optics",
+  description: "Registrate en Extreme Optics y creá tu cuenta.",
+};
 
 export default function RegistroPage() {
   return (
-    <main className="min-h-screen bg-[#fcf9f2] px-5 py-12 text-[#1c1c18] lg:px-8">
-      <div className="mx-auto max-w-xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#855230]">
-          Sumate a nuestra óptica
-        </p>
-
-        <h1 className="mt-4 text-4xl font-black uppercase tracking-tight sm:text-6xl">
-          Crear cuenta
-        </h1>
-
-        <p className="mt-5 leading-7 text-[#444748]">
-          Registrate para acceder a tu cuenta y gestionar tus datos.
-        </p>
-
-        <section
-          aria-label="Registro de cuenta"
-          className="mt-10 border border-black/10 bg-white p-8"
-        >
-          <p className="text-[#444748]">
-            Acá incorporaremos el formulario de registro.
+    <main className="min-h-screen bg-white px-5 py-16">
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-10 text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-[#855230]">
+            Extreme Optics
           </p>
 
-          <p className="mt-6 text-sm text-[#444748]">
-            ¿Ya tenés una cuenta?{" "}
+          <h1 className="mb-3 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+            Crear una cuenta
+          </h1>
+
+          <p className="text-sm text-black/60">
+            Completá tus datos para registrarte en nuestra óptica.
+          </p>
+        </div>
+
+        <div className="border border-black/10 bg-white p-6 shadow-sm sm:p-10">
+          <RegisterForm />
+
+          <div className="mt-8 border-t border-black/10 pt-6 text-center">
+            <p className="text-sm text-black/60">¿Ya tenés una cuenta?</p>
+
             <Link
               href="/login"
-              className="font-semibold text-black underline underline-offset-4 hover:text-[#855230]"
+              className="mt-2 inline-block text-sm font-bold text-[#855230] transition-colors hover:text-black"
             >
-              Iniciá sesión
+              Iniciar sesión
             </Link>
-          </p>
-        </section>
+          </div>
+        </div>
       </div>
     </main>
   );
