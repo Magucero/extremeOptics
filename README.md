@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Extreme Optics — Frontend
 
-## Getting Started
+Aplicación web de **Extreme Optics**, una óptica que ofrece anteojos de sol, recetados y con filtro de luz azul. Fue desarrollada como Examen Final Integrador 2026 de Programación III con Next.js (App Router) y consume la API REST que el grupo construyó en Ingeniería de Software con Django y Django REST Framework.
 
-First, run the development server:
+Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el detalle de cada modelo. El personal autorizado inicia sesión para administrar el catálogo.
+
+- **API consumida:** https://github.com/lneira1754/EFI_ING_API
+- **Documentación de la API (Swagger, entorno local):** http://127.0.0.1:8000/api/docs/
+
+## Enlaces de entrega
+
+- **Aplicación desplegada:** _COMPLETAR: URL de Vercel_
+- **Tablero Kanban:** _COMPLETAR: URL del tablero_
+- **Repositorio frontend:** https://github.com/Magucero/extremeOptics
+
+## Integrantes
+
+- _COMPLETAR: Nombre y apellido_
+- _COMPLETAR: Nombre y apellido_
+- _COMPLETAR: Nombre y apellido_
+- _COMPLETAR: Nombre y apellido_
+
+## Tecnologías
+
+- Next.js 16 (App Router), React 19 y JavaScript
+- Tailwind CSS 4
+- React Hook Form + Zod (`@hookform/resolvers`)
+- Context API para la sesión del usuario
+- Autenticación JWT contra la API (SimpleJWT)
+
+## Ejecución local
+
+Requisitos: Node.js y npm compatibles con la versión de Next.js declarada en `package.json`, y la API del grupo en ejecución.
 
 ```bash
+git clone https://github.com/Magucero/extremeOptics.git
+cd extremeOptics
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir http://localhost:3000.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Variables de entorno
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Crear un archivo `.env.local` en la raíz del proyecto:
 
-## Learn More
+```env
+API_BASE_URL=http://127.0.0.1:8000/api
+```
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Descripción |
+| --- | --- |
+| `API_BASE_URL` | URL base de la API Django, sin barra final. Solo se lee en el servidor (no lleva el prefijo `NEXT_PUBLIC_`). |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+En producción (Vercel), `API_BASE_URL` debe apuntar a la API publicada; una dirección `127.0.0.1` no es accesible desde Vercel.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tests
 
-## Deploy on Vercel
+```bash
+npm run test
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> _PENDIENTE: el script `test` y las pruebas unitarias todavía no están configurados en `package.json`._
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Funcionalidades y rutas
+
+| Ruta | Descripción |
+| --- | --- |
+| `/` | Inicio |
+| `/anteojos` | Catálogo con búsqueda y paginación |
+| `/anteojos/sol`, `/anteojos/luz-azul`, `/anteojos/recetados` | Catálogo filtrado por categoría (rutas anidadas) |
+| `/anteojos/[id]` | Detalle de un anteojo (ruta dinámica) |
+| `/categorias` | Categorías del catálogo |
+| `/contacto` | Contacto |
+| `/login` | Inicio de sesión |
+| `/registro` | Registro de usuarios (_pendiente_) |
+| `/dashboard` | Panel de administración |
+| `/dashboard/anteojos/nuevo` | Alta de anteojo |
+| `/dashboard/anteojos/[id]/editar` | Edición de anteojo (ruta dinámica) |
+
+## Arquitectura
+
+```text
+Navegador ──► /api/* (route handlers de Next.js) ──► API Django REST
+               leen la cookie httpOnly y agregan
+               "Authorization: Bearer <token>"
+```
+
+- **Autenticación:** `/api/auth/login` obtiene los tokens JWT de `/api/token/` y los guarda en cookies `httpOnly`, de modo que el JavaScript del navegador no tiene acceso al token. `/api/auth/session` devuelve el usuario actual y `/api/auth/logout` cierra la sesión.
+- **Estado global:** `AuthProvider` (`src/components/auth/AuthProvider.jsx`) expone la sesión con `createContext` y el hook `useAuth`.
+- **Formularios:** `LoginForm` y `AnteojoForm` usan React Hook Form con esquemas de Zod y muestran tanto los errores de validación como los errores devueltos por la API.
+- **Server y Client Components:** las páginas de catálogo y las tarjetas se renderizan en el servidor; los formularios, la barra de navegación y el proveedor de sesión son Client Components porque necesitan estado, eventos o hooks.
+- **Carga y errores:** `/anteojos` incluye `loading.jsx` y `error.jsx`; `not-found.jsx` cubre las rutas inexistentes.
+
+```text
+src/
+├── app/
+│   ├── api/            # Route handlers: auth, anteojos, catalogos
+│   ├── anteojos/       # Catálogo, subcategorías, detalle, layout, loading, error
+│   ├── dashboard/      # Panel de administración y su layout
+│   ├── categorias/ contacto/ login/ registro/
+│   ├── layout.js       # Layout raíz con AuthProvider y Navbar
+│   └── not-found.jsx
+├── components/         # Componentes reutilizables (auth/, dashboard/)
+└── services/           # Acceso a datos
+```
+
+## Capturas
+
+_COMPLETAR: agregar capturas de la aplicación en funcionamiento, por ejemplo:_
+
+<!--
+![Inicio](docs/capturas/inicio.png)
+![Catálogo](docs/capturas/catalogo.png)
+![Detalle](docs/capturas/detalle.png)
+![Login](docs/capturas/login.png)
+![Alta de anteojo](docs/capturas/alta.png)
+-->
+
+## Flujo de trabajo
+
+El repositorio usa las ramas `main`, `develop` y ramas de funcionalidad, integradas mediante pull requests.
