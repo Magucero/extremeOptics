@@ -47,7 +47,23 @@ export async function obtenerAnteojos(filtros = {}) {
   return procesarRespuesta(respuesta, "No se pudieron obtener los anteojos.");
 }
 
-// Obtener un anteojo por ID
+// Obtener el detalle de un anteojo con marca, categoría, material e imágenes
+// anidadas. The API detail endpoint returns flat ids without images, while the
+// list endpoint returns the nested shape, so the product is looked up in the
+// list by its unique SKU.
+export async function obtenerDetalleAnteojo(id) {
+  const anteojo = await obtenerAnteojoPorId(id);
+
+  if (!anteojo) {
+    return null;
+  }
+
+  const datos = await obtenerAnteojos({ search: anteojo.sku });
+
+  return datos.results.find((item) => item.id === anteojo.id) ?? null;
+}
+
+// Obtener un anteojo por ID (formato plano de la API, con ids relacionados)
 export async function obtenerAnteojoPorId(id) {
   const respuesta = await fetch(
     urlApi(`/anteojos/${encodeURIComponent(id)}/`),
