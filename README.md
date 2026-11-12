@@ -9,7 +9,7 @@ Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el 
 
 ## Enlaces de entrega
 
-- **Aplicación desplegada:** https://optics-lac.vercel.app
+- **Aplicación desplegada:** https://extreme-optics-delta.vercel.app
 - **Tablero Kanban (Trello):** https://trello.com/b/u1t3s0lA/extreme-optics-efi
 - **Repositorio frontend:** https://github.com/Magucero/extremeOptics
 
