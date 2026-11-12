@@ -9,7 +9,7 @@ Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el 
 
 ## Enlaces de entrega
 
-- **Aplicación desplegada:** https://optics-lac.vercel.app
+- **Aplicación desplegada:** https://extreme-optics-delta.vercel.app
 - **Tablero Kanban (Trello):** https://trello.com/b/u1t3s0lA/extreme-optics-efi
 - **Repositorio frontend:** https://github.com/Magucero/extremeOptics
 
@@ -108,15 +108,23 @@ src/
 
 ## Capturas
 
-_COMPLETAR: agregar capturas de la aplicación en funcionamiento, por ejemplo:_
+Capturas de la aplicación desplegada en Vercel.
 
-<!--
+### Inicio
+
 ![Inicio](docs/capturas/inicio.png)
+
+### Catálogo con búsqueda
+
 ![Catálogo](docs/capturas/catalogo.png)
+
+### Detalle de un anteojo
+
 ![Detalle](docs/capturas/detalle.png)
+
+### Inicio de sesión
+
 ![Login](docs/capturas/login.png)
-![Alta de anteojo](docs/capturas/alta.png)
--->
 
 ## Flujo de trabajo
 
