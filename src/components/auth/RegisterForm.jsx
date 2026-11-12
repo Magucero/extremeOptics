@@ -4,30 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const esquemaRegistro = z
-  .object({
-    nombre: z.string().trim().min(2, "Ingresá tu nombre."),
-    apellido: z.string().trim().min(2, "Ingresá tu apellido."),
-    email: z.string().trim().email("Ingresá un correo válido."),
-    dni: z
-      .string()
-      .trim()
-      .min(7, "El DNI debe tener al menos 7 caracteres.")
-      .max(20, "El DNI no puede superar los 20 caracteres."),
-    telefono: z.string().trim().min(6, "Ingresá un teléfono válido."),
-    direccion: z.string().trim().min(5, "Ingresá tu dirección."),
-    password: z
-      .string()
-      .min(8, "La contraseña debe tener al menos 8 caracteres."),
-    confirmarPassword: z.string().min(1, "Confirmá tu contraseña."),
-  })
-  .refine((datos) => datos.password === datos.confirmarPassword, {
-    message: "Las contraseñas no coinciden.",
-    path: ["confirmarPassword"],
-  });
+import { esquemaRegistro } from "@/lib/validaciones";
 
 const campos = [
   {

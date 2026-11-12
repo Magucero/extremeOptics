@@ -61,7 +61,16 @@ En producción (Vercel), `API_BASE_URL` debe apuntar a la API publicada; una dir
 npm run test
 ```
 
-> _PENDIENTE: el script `test` y las pruebas unitarias todavía no están configurados en `package.json`._
+Las pruebas unitarias usan [Vitest](https://vitest.dev) y cubren los esquemas de validación de Zod que comparten los formularios (`src/lib/validaciones.js`):
+
+| Test | Qué verifica |
+| --- | --- |
+| `esquemaLogin` | Rechaza usuario y contraseña vacíos con un mensaje por campo. |
+| `esquemaRegistro` | Marca el error en `confirmarPassword` cuando las contraseñas no coinciden. |
+| `esquemaAnteojo` | Convierte a número el precio y el stock que llegan como texto del formulario. |
+| `esquemaAnteojo` | Rechaza precio vacío, stock negativo y la falta de tipos de lente. |
+
+Los tests están en `src/lib/validaciones.test.js`.
 
 ## Funcionalidades y rutas
 

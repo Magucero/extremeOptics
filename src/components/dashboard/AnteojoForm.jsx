@@ -4,68 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { esquemaAnteojo } from "@/lib/validaciones";
 
 import { crearAnteojo, actualizarAnteojo } from "@/services/anteojos";
 
 import { obtenerCatalogos } from "@/services/catalogos";
-
-// Convierte los campos numéricos y rechaza valores vacíos.
-const numeroObligatorio = z.preprocess(
-  (valor) =>
-    valor === "" || valor === null || valor === undefined
-      ? Number.NaN
-      : Number(valor),
-  z.number(),
-);
-
-const esquemaAnteojo = z.object({
-  nombre: z
-    .string()
-    .trim()
-    .min(1, "El nombre es obligatorio")
-    .max(160, "El nombre no puede superar los 160 caracteres"),
-
-  sku: z
-    .string()
-    .trim()
-    .min(1, "El SKU es obligatorio")
-    .max(50, "El SKU no puede superar los 50 caracteres"),
-
-  marca: z.number().int().positive("Seleccioná una marca"),
-
-  categoria: z.number().int().positive("Seleccioná una categoría"),
-
-  material: z.number().int().positive("Seleccioná un material"),
-
-  tipos_lente: z
-    .array(z.number().int().positive())
-    .min(1, "Seleccioná al menos un tipo de lente"),
-
-  forma: z.string().min(1, "Seleccioná una forma"),
-
-  genero: z.string().min(1, "Seleccioná un género"),
-
-  color_marco: z.string().trim().min(1, "Ingresá el color del marco"),
-
-  color_lente: z.string().trim().min(1, "Ingresá el color del lente"),
-
-  precio: numeroObligatorio.pipe(
-    z.number().positive("El precio debe ser mayor a cero"),
-  ),
-
-  stock: numeroObligatorio.pipe(
-    z
-      .number()
-      .int("El stock debe ser un número entero")
-      .min(0, "El stock no puede ser negativo"),
-  ),
-
-  activo: z.boolean(),
-  destacado: z.boolean(),
-
-  descripcion: z.string(),
-});
 
 const valoresIniciales = {
   nombre: "",
