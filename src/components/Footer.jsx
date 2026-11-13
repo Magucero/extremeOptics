@@ -30,10 +30,9 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-[#1c1c18]/15 pt-6">
-          <p className="text-xs text-[#1c1c18]/55">
-            © {new Date().getFullYear()} Extreme Optics. Todos los derechos
-            reservados.
-          </p>
+         <p className="text-xs text-[#1c1c18]/55">
+  © 2026 Extreme Optics. Todos los derechos reservados.
+</p>
         </div>
       </div>
     </footer>
