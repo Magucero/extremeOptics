@@ -1,6 +1,3 @@
-const API_BASE_URL =
-  "https://efiingapi-production.up.railway.app/api";
-
 async function procesarRespuesta(respuesta, mensajeError) {
   if (!respuesta.ok) {
     const error = await respuesta.json().catch(() => null);
@@ -13,9 +10,7 @@ async function procesarRespuesta(respuesta, mensajeError) {
       throw new Error("No tenés permisos para realizar esta operación.");
     }
 
-    throw new Error(
-      error?.detail || error?.message || mensajeError
-    );
+    throw new Error(error?.detail || error?.message || mensajeError);
   }
 
   if (respuesta.status === 204) {
@@ -45,21 +40,11 @@ export async function obtenerAnteojos(filtros = {}) {
   const query = parametros.toString();
 
   const respuesta = await fetch(
-<<<<<<< HEAD
-    `${API_BASE_URL}/anteojos/${query ? `?${query}` : ""}`,
-    {
-      cache: "no-store",
-    }
-=======
     urlApi(`/anteojos/${query ? `?${query}` : ""}`),
     { cache: "no-store" },
->>>>>>> 58413baef2fd30edecc3e6f3767f8df3c4780e4f
   );
 
-  return procesarRespuesta(
-    respuesta,
-    "No se pudieron obtener los anteojos."
-  );
+  return procesarRespuesta(respuesta, "No se pudieron obtener los anteojos.");
 }
 
 // Obtener el detalle de un anteojo con marca, categoría, material e imágenes
@@ -81,28 +66,18 @@ export async function obtenerDetalleAnteojo(id) {
 // Obtener un anteojo por ID (formato plano de la API, con ids relacionados)
 export async function obtenerAnteojoPorId(id) {
   const respuesta = await fetch(
-<<<<<<< HEAD
-    `${API_BASE_URL}/anteojos/${encodeURIComponent(id)}/`,
-    {
-      cache: "no-store",
-    }
-=======
     urlApi(`/anteojos/${encodeURIComponent(id)}/`),
     { cache: "no-store" },
->>>>>>> 58413baef2fd30edecc3e6f3767f8df3c4780e4f
   );
 
   if (respuesta.status === 404) {
     return null;
   }
 
-  return procesarRespuesta(
-    respuesta,
-    "No se pudo obtener el anteojo."
-  );
+  return procesarRespuesta(respuesta, "No se pudo obtener el anteojo.");
 }
 
-// Crear un anteojo mediante Next.js y sus cookies de sesión
+// Crear un anteojo
 export async function crearAnteojo(datos) {
   const respuesta = await fetch("/api/anteojos", {
     method: "POST",
@@ -112,42 +87,27 @@ export async function crearAnteojo(datos) {
     body: JSON.stringify(datos),
   });
 
-  return procesarRespuesta(
-    respuesta,
-    "No se pudo crear el anteojo."
-  );
+  return procesarRespuesta(respuesta, "No se pudo crear el anteojo.");
 }
 
 // Actualizar un anteojo
 export async function actualizarAnteojo(id, datos) {
-  const respuesta = await fetch(
-    `/api/anteojos/${encodeURIComponent(id)}`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(datos),
-    }
-  );
+  const respuesta = await fetch(`/api/anteojos/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(datos),
+  });
 
-  return procesarRespuesta(
-    respuesta,
-    "No se pudo actualizar el anteojo."
-  );
+  return procesarRespuesta(respuesta, "No se pudo actualizar el anteojo.");
 }
 
 // Eliminar un anteojo
 export async function eliminarAnteojo(id) {
-  const respuesta = await fetch(
-    `/api/anteojos/${encodeURIComponent(id)}`,
-    {
-      method: "DELETE",
-    }
-  );
+  const respuesta = await fetch(`/api/anteojos/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
 
-  return procesarRespuesta(
-    respuesta,
-    "No se pudo eliminar el anteojo."
-  );
+  return procesarRespuesta(respuesta, "No se pudo eliminar el anteojo.");
 }
