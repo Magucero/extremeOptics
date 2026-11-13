@@ -3,14 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { esquemaLogin } from "@/lib/validaciones";
 import { useAuth } from "@/components/auth/AuthProvider";
-
-const esquemaLogin = z.object({
-  username: z.string().min(1, "Ingresá tu usuario"),
-  password: z.string().min(1, "Ingresá tu contraseña"),
-});
 
 export default function LoginForm() {
   const router = useRouter();

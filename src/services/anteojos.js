@@ -25,16 +25,35 @@ async function procesarRespuesta(respuesta, mensajeError) {
   return respuesta.json();
 }
 
+// Read functions are called from Server Components, where fetch requires an
+// absolute URL. They query the Django API directly through API_BASE_URL
+// (server-only variable). Mutations below go through /api route handlers
+// because they are called from Client Components and need the session cookie.
+function urlApi(ruta) {
+  const baseUrl = process.env.API_BASE_URL?.replace(/\/+$/, "");
+
+  if (!baseUrl) {
+    throw new Error("La URL de la API no está configurada.");
+  }
+
+  return `${baseUrl}${ruta}`;
+}
+
 // Obtener todos los anteojos con filtros opcionales
 export async function obtenerAnteojos(filtros = {}) {
   const parametros = new URLSearchParams(filtros);
   const query = parametros.toString();
 
   const respuesta = await fetch(
+<<<<<<< HEAD
     `${API_BASE_URL}/anteojos/${query ? `?${query}` : ""}`,
     {
       cache: "no-store",
     }
+=======
+    urlApi(`/anteojos/${query ? `?${query}` : ""}`),
+    { cache: "no-store" },
+>>>>>>> 58413baef2fd30edecc3e6f3767f8df3c4780e4f
   );
 
   return procesarRespuesta(
@@ -43,13 +62,34 @@ export async function obtenerAnteojos(filtros = {}) {
   );
 }
 
-// Obtener un anteojo por ID
+// Obtener el detalle de un anteojo con marca, categoría, material e imágenes
+// anidadas. The API detail endpoint returns flat ids without images, while the
+// list endpoint returns the nested shape, so the product is looked up in the
+// list by its unique SKU.
+export async function obtenerDetalleAnteojo(id) {
+  const anteojo = await obtenerAnteojoPorId(id);
+
+  if (!anteojo) {
+    return null;
+  }
+
+  const datos = await obtenerAnteojos({ search: anteojo.sku });
+
+  return datos.results.find((item) => item.id === anteojo.id) ?? null;
+}
+
+// Obtener un anteojo por ID (formato plano de la API, con ids relacionados)
 export async function obtenerAnteojoPorId(id) {
   const respuesta = await fetch(
+<<<<<<< HEAD
     `${API_BASE_URL}/anteojos/${encodeURIComponent(id)}/`,
     {
       cache: "no-store",
     }
+=======
+    urlApi(`/anteojos/${encodeURIComponent(id)}/`),
+    { cache: "no-store" },
+>>>>>>> 58413baef2fd30edecc3e6f3767f8df3c4780e4f
   );
 
   if (respuesta.status === 404) {

@@ -9,7 +9,7 @@ Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el 
 
 ## Enlaces de entrega
 
-- **Aplicación desplegada:** https://optics-lac.vercel.app
+- **Aplicación desplegada:** https://extreme-optics-delta.vercel.app
 - **Tablero Kanban (Trello):** https://trello.com/b/u1t3s0lA/extreme-optics-efi
 - **Repositorio frontend:** https://github.com/Magucero/extremeOptics
 
@@ -61,7 +61,16 @@ En producción (Vercel), `API_BASE_URL` debe apuntar a la API publicada; una dir
 npm run test
 ```
 
-> _PENDIENTE: el script `test` y las pruebas unitarias todavía no están configurados en `package.json`._
+Las pruebas unitarias usan [Vitest](https://vitest.dev) y cubren los esquemas de validación de Zod que comparten los formularios (`src/lib/validaciones.js`):
+
+| Test | Qué verifica |
+| --- | --- |
+| `esquemaLogin` | Rechaza usuario y contraseña vacíos con un mensaje por campo. |
+| `esquemaRegistro` | Marca el error en `confirmarPassword` cuando las contraseñas no coinciden. |
+| `esquemaAnteojo` | Convierte a número el precio y el stock que llegan como texto del formulario. |
+| `esquemaAnteojo` | Rechaza precio vacío, stock negativo y la falta de tipos de lente. |
+
+Los tests están en `src/lib/validaciones.test.js`.
 
 ## Funcionalidades y rutas
 
@@ -108,15 +117,23 @@ src/
 
 ## Capturas
 
-_COMPLETAR: agregar capturas de la aplicación en funcionamiento, por ejemplo:_
+Capturas de la aplicación desplegada en Vercel.
 
-<!--
+### Inicio
+
 ![Inicio](docs/capturas/inicio.png)
+
+### Catálogo con búsqueda
+
 ![Catálogo](docs/capturas/catalogo.png)
+
+### Detalle de un anteojo
+
 ![Detalle](docs/capturas/detalle.png)
+
+### Inicio de sesión
+
 ![Login](docs/capturas/login.png)
-![Alta de anteojo](docs/capturas/alta.png)
--->
 
 ## Flujo de trabajo
 
