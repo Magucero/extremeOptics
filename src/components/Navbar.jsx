@@ -7,7 +7,7 @@ export default function Navbar() {
   const { usuario, cargando, autenticado, cerrarSesion } = useAuth();
 
   return (
-    <header className="w-full border-b border-[#e8e0d4] bg-[#fcf9f2]">
+    <header className="w-full border-b border-[#e8e0d4] bg-[#fcf9f2] text-[#1c1c18]">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link
           href="/"

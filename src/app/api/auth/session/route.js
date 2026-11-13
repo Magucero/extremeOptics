@@ -19,7 +19,7 @@ export async function GET() {
       );
     }
 
-    const respuesta = await fetch(`${baseUrl}/clientes/me/`, {
+    const respuesta = await fetch(`${baseUrl}/usuarios/me/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -29,11 +29,6 @@ export async function GET() {
     });
 
     if (respuesta.status === 401 || respuesta.status === 403) {
-      return NextResponse.json({ usuario: null }, { status: 200 });
-    }
-
-    // Un 404 no permite determinar si el usuario es administrador.
-    if (respuesta.status === 404) {
       return NextResponse.json({ usuario: null }, { status: 200 });
     }
 
@@ -48,12 +43,12 @@ export async function GET() {
 
     return NextResponse.json({
       usuario: {
-        id: usuario.usuario?.id,
+        id: usuario.id,
         username: usuario.username,
         nombre: usuario.nombre,
         apellido: usuario.apellido,
         email: usuario.email,
-        isStaff: false,
+        isStaff: usuario.is_staff,
       },
     });
   } catch (error) {
