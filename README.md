@@ -16,7 +16,7 @@ Los visitantes pueden recorrer el catálogo, buscar y filtrar anteojos y ver el 
 ## Integrantes
 
 - Neira Leonardo
-- Pereira Thomas
+- Pereyra Thomas 
 - Ramón Joaquín Rodriguez
 - Perez Lucas
 
