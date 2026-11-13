@@ -1,13 +1,27 @@
 import Link from "next/link";
-import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import AnteojoForm from "@/components/dashboard/AnteojoForm";
+import { obtenerAnteojoPorId } from "@/services/anteojos";
 
-async function ContenidoEditarAnteojo({ params }) {
+export default async function EditarAnteojoPage({ params }) {
   const { id } = await params;
+  const anteojo = await obtenerAnteojoPorId(id);
+
+  if (!anteojo) {
+    notFound();
+  }
 
   return (
-    <main className="min-h-screen bg-[#fcf9f2] px-5 py-12 text-[#1c1c18] lg:px-8">
+    <main className="bg-[#fcf9f2] px-5 py-12 text-[#1c1c18] lg:px-8">
       <div className="mx-auto max-w-4xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#855230]">
+        <Link
+          href="/dashboard"
+          className="text-sm font-semibold underline underline-offset-4 hover:text-[#855230]"
+        >
+          ← Volver al panel
+        </Link>
+
+        <p className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-[#855230]">
           Administración / Catálogo
         </p>
 
@@ -15,37 +29,14 @@ async function ContenidoEditarAnteojo({ params }) {
           Editar anteojo
         </h1>
 
-        <p className="mt-5 leading-7 text-[#444748]">
-          Estás preparando la edición del anteojo con identificador: {id}.
+        <p className="mt-5 text-[#444748]">
+          Modificando: {anteojo.nombre}
         </p>
 
-        <section className="mt-10 border border-black/10 bg-white p-8">
-          <p className="leading-7 text-[#444748]">
-            El formulario de edición se incorporará en esta sección.
-          </p>
-
-          <Link
-            href="/dashboard"
-            className="mt-6 inline-block bg-black px-6 py-3 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-[#855230]"
-          >
-            Volver al panel
-          </Link>
-        </section>
+        <div className="mt-10 border border-black/10 bg-white p-6 sm:p-8">
+          <AnteojoForm anteojo={anteojo} />
+        </div>
       </div>
     </main>
-  );
-}
-
-export default function EditarAnteojoPage({ params }) {
-  return (
-    <Suspense
-      fallback={
-        <p className="min-h-screen bg-[#fcf9f2] p-10 text-[#444748]">
-          Cargando edición...
-        </p>
-      }
-    >
-      <ContenidoEditarAnteojo params={params} />
-    </Suspense>
   );
 }
