@@ -1,6 +1,15 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function DashboardLayout({ children }) {
+// Protected route: every page under /dashboard requires an active session.
+export default async function DashboardLayout({ children }) {
+  const cookieStore = await cookies();
+
+  if (!cookieStore.get("access_token")?.value) {
+    redirect("/login");
+  }
+
   return (
     <div className="min-h-screen bg-[#fcf9f2] text-[#1c1c18]">
       <div className="border-b border-black/10 bg-[#f1eee7] px-5 py-4 lg:px-8">
